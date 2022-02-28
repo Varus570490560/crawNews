@@ -1,10 +1,13 @@
 import mitmproxy.http
-from mitmproxy import ctx
 
 
 def request(flow: mitmproxy.http.HTTPFlow):
-    if 'https://mollusk.apis.ign.com' in flow.request.url:
-        print(flow.request.url)
+    with open('./url_cache/url.txt', 'wb') as w:
+        if 'https://mollusk.apis.ign.com/' in flow.request.url:
+            print(flow.request.url)
+            w.write(flow.request.url.encode())
+            w.write('\n'.encode())
+            w.flush()
 
 
 class Counter:

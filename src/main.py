@@ -1,8 +1,10 @@
 import os
+import muti_thread
 
 
 if __name__ == '__main__':
-    os.system('mitmweb -s ./proxy.py;')
+    muti_thread.GetTodayStory(0).start()
+    os.system('mitmweb -s ./src/proxy.py;')
 
 
 
