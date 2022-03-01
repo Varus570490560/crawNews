@@ -3,8 +3,9 @@ import muti_thread
 
 
 if __name__ == '__main__':
-    muti_thread.GetTodayStory(0).start()
-    os.system('mitmweb -s ./src/proxy.py;')
+    lst = list()
+    lst.append('https://www.ign.com/articles/pokemon-scarlet-and-pokemon-violet-announced-for-late-2022')
+    muti_thread.visit_page(lst)
 
 
 

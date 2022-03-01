@@ -38,3 +38,8 @@ def get_today_story():
         for i, child in enumerate(article.descendants):
             if i == 0:
                 analysis_article('https://www.ign.com' + child['href'])
+
+
+def find_a(soup):
+    return soup.findAll(name='a')
+
