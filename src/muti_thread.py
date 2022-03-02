@@ -1,6 +1,14 @@
+import os.path
 import threading
+
+import requests
+
 import visit
 import get_soup
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 '
+}
 
 
 class GetTodayStory(threading.Thread):
@@ -36,9 +44,11 @@ def run_browser():
 def visit_page(urls):
     base_url = ''
     for url in urls:
-        soup = get_soup.get_soup(base_url+url,Falseg)
+        soup = get_soup.get_soup(base_url + url, False)
         title = soup.find(name='title')
-        with open('./essay/' + title.string + '.txt', 'wb') as writer:
+        if not os.path.isdir('./output/' + title.string):
+            os.mkdir('./output/' + title.string)
+        with open('./output/' + title.string + '/' + title.string + '.txt', 'wb') as writer:
             ps = soup.findAll(name='p')
             update = soup.find(name='div', attrs='jsx-2034901901 article-modified-date')
             if update is not None:
@@ -49,4 +59,17 @@ def visit_page(urls):
                 writer.write(p.text.encode())
                 writer.write('\n'.encode())
                 writer.flush()
-
+        imgs = soup.findAll(name='img')
+        i = 0
+        for img in imgs:
+            if i == 0:
+                i=i+1
+                continue
+            i=i+1
+            src = img['src']
+            index = src.find('?')
+            src = src[:index]
+            img_response = requests.get(url=src, headers=headers)
+            with open('./output/' + title.string + '/' + str(i) + '.jpg', 'wb') as w:
+                w.write(img_response.content)
+                print(src)

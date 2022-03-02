@@ -1,2 +1,7 @@
-run:
-	python ./src/main.py
+TAR = run += URL
+
+
+run $(URL):
+	python ./src/main.py $(URL)
+
+
